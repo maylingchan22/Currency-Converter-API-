@@ -1,2 +1,1 @@
-# Personalized Travel Exploration Platform
- 
+# Currency Converter API
