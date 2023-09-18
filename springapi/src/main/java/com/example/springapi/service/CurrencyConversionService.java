@@ -1,51 +1,50 @@
 package com.example.springapi.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import com.example.springapi.api.model.CurrencyConversion;
 
-import java.util.Map;
+import com.example.springapi.api.externalapi.ExchangeRateApiResponse;
+import com.example.springapi.api.model.CurrencyConversion;
 
 @Service
 public class CurrencyConversionService {
-    @Value("${exchange.api.baseurl}")
-    private String apiUrl;
 
-    @Value("${exchange.api.accesskey}")
-    private String accessKey;
+    @Value("${exchangerate.api.base-url}") // Configure this in your application.properties
+    private String exchangeRateApiBaseUrl;
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    public CurrencyConversionService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    public CurrencyConversion convertCurrency(String from, String to, double amount) {
+        String apiUrl = exchangeRateApiBaseUrl + "/latest/USD"; // Using USD as the base currency
 
-    public double convertCurrency(String fromCurrency, String toCurrency, double amount) {
-        String endpoint = "latest";
-        String requestUrl = apiUrl + endpoint + "?access_key=" + accessKey;
+        ExchangeRateApiResponse response = restTemplate.getForObject(apiUrl, ExchangeRateApiResponse.class);
 
-        // Make a GET request to the API
-        ExchangeRatesResponse response = restTemplate.getForObject(requestUrl, ExchangeRatesResponse.class);
-
-        if (response != null && response.getRates() != null) {
-            double fromRate = response.getRates().get(fromCurrency);
-            double toRate = response.getRates().get(toCurrency);
-
-            if (fromRate != 0 && toRate != 0) {
-                // Perform the conversion
-                double convertedAmount = (amount / fromRate) * toRate;
-                return convertedAmount;
-            }
+        if (response == null || !"success".equals(response.getResult())) {
+            // Handle the case where the response is null or the API request was not
+            // successful
+            return null;
         }
 
-        throw new CurrencyConversionException(
-                "Unsupported currency conversion: " + fromCurrency + " to " + toCurrency);
-    }
+        Map<String, Double> rates = response.getConversionRates();
 
-    public static class CurrencyConversionException extends RuntimeException {
-        public CurrencyConversionException(String message) {
-            super(message);
+        if (rates == null || !rates.containsKey(to)) {
+            // Handle the case where rates are null or do not contain the target currency
+            // 'to'
+            return null;
         }
+
+        double conversionRate = rates.get(to);
+        double convertedAmount = amount * conversionRate;
+
+        CurrencyConversion currencyConversion = new CurrencyConversion();
+        currencyConversion.setFromCurrency(from);
+        currencyConversion.setToCurrency(to);
+        currencyConversion.setAmount(amount);
+        currencyConversion.setConvertedAmount(convertedAmount);
+
+        return currencyConversion;
     }
 }

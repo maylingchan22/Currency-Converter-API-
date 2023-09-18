@@ -1,46 +1,26 @@
 package com.example.springapi.api.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.springapi.api.model.CurrencyConversion;
 import com.example.springapi.service.CurrencyConversionService;
 
 @RestController
-@RequestMapping("/api/currency-conversion")
+@RequestMapping("/api/currency")
 public class CurrencyConversionController {
-    private final CurrencyConversionService conversionService;
 
-    public CurrencyConversionController(CurrencyConversionService conversionService) {
-        this.conversionService = conversionService;
-    }
+    @Autowired
+    private CurrencyConversionService currencyConversionService;
 
     @GetMapping("/convert")
     public CurrencyConversion convertCurrency(
-            @RequestParam("fromCurrency") String fromCurrency,
-            @RequestParam("toCurrency") String toCurrency,
-            @RequestParam("amount") double amount) {
-        try {
-            // Call the service to perform the conversion
-            double convertedAmount = conversionService.convertCurrency(fromCurrency, toCurrency, amount);
-
-            // Create a CurrencyConversion object to return
-            CurrencyConversion conversion = new CurrencyConversion();
-            conversion.setFromCurrency(fromCurrency);
-            conversion.setToCurrency(toCurrency);
-            conversion.setAmount(amount);
-            conversion.setConvertedAmount(convertedAmount);
-
-            return conversion;
-        } catch (Exception e) {
-            throw new CurrencyConversionException("Currency conversion failed: " + e.getMessage());
-        }
-    }
-
-    // Custom exception class for currency conversion errors
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public static class CurrencyConversionException extends RuntimeException {
-        public CurrencyConversionException(String message) {
-            super(message);
-        }
+            @RequestParam String from,
+            @RequestParam String to,
+            @RequestParam double amount) {
+        return currencyConversionService.convertCurrency(from, to, amount);
     }
 }

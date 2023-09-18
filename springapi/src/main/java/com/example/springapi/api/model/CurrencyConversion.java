@@ -1,26 +1,24 @@
 package com.example.springapi.api.model;
 
-import java.util.Map;
-
 public class CurrencyConversion {
     private String fromCurrency;
     private String toCurrency;
     private double amount;
     private double convertedAmount;
-    private Map<String, Double> exchangeRates;
 
+    // Default no-argument constructor
     public CurrencyConversion() {
     }
 
-    public CurrencyConversion(String fromCurrency, String toCurrency, double amount, double convertedAmount,
-            Map<String, Double> exchangeRates) {
+    // Constructor with all fields
+    public CurrencyConversion(String fromCurrency, String toCurrency, double amount, double convertedAmount) {
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
         this.amount = amount;
         this.convertedAmount = convertedAmount;
-        this.exchangeRates = exchangeRates;
     }
 
+    // Getters and setters
     public String getFromCurrency() {
         return fromCurrency;
     }
@@ -51,24 +49,5 @@ public class CurrencyConversion {
 
     public void setConvertedAmount(double convertedAmount) {
         this.convertedAmount = convertedAmount;
-    }
-
-    public Map<String, Double> getExchangeRates() {
-        return exchangeRates;
-    }
-
-    public void setExchangeRates(Map<String, Double> exchangeRates) {
-        this.exchangeRates = exchangeRates;
-    }
-
-    @Override
-    public String toString() {
-        return "CurrencyConversion{" +
-                "fromCurrency='" + fromCurrency + '\'' +
-                ", toCurrency='" + toCurrency + '\'' +
-                ", amount=" + amount +
-                ", convertedAmount=" + convertedAmount +
-                ", exchangeRates=" + exchangeRates +
-                '}';
     }
 }
