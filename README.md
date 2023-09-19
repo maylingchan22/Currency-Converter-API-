@@ -42,24 +42,24 @@ The application should now be running locally.
 
 ## Usage
 
-# API Endpoint
+### API Endpoint
 The API exposes a single endpoint for currency conversion:
 
 - **Endpoint: `/api/currency/convert`**
 - **Method**: GET
 
-# Request Parameters
+### Request Parameters
 - **`from`** (String): The currency code to convert from (e.g., "USD").
 - **`to`** (String): The currency code to convert to (e.g., "EUR").
 - **`amount`** (double): The amount to convert.
 
-**Example Request**
+#### **Example Request**
 
 To convert 100 USD to EUR, make a GET request to the following endpoint:
 
 ```GET http://localhost:8080/api/currency/convert?from=USD&to=EUR&amount=100```
 
-**Example Response**
+#### **Example Response**
 
 ```{
 "fromCurrency": "USD",
