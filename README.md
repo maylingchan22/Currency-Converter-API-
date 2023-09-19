@@ -26,32 +26,36 @@ To set up and run the project locally, follow these steps:
    cd currency-converter-api
    ```
 
-Configure External API URL:
+2. **Configure External API URL**:
 Open the application.properties file in the src/main/resources directory and set the exchangerate.api.base-url property to the URL of the external exchange rate API.
 
-Build the Project:
+3. **Build the Project**:
 Use Maven to build the project:
-mvn clean install
+```mvn clean install```
 
-Run the Application:
+4. **Run the Application**:
 Run the Spring Boot application:
-java -jar target/currency-converter-api-<version>.jar
+
+```java -jar target/currency-converter-api-<version>.jar```
+
 The application should now be running locally.
 
 ## Usage
 
-API Endpoint
+# API Endpoint
 The API exposes a single endpoint for currency conversion:
 
-Endpoint: /api/currency/convert
-Method: GET
-Request Parameters
-from (String): The currency code to convert from (e.g., "USD").
-to (String): The currency code to convert to (e.g., "EUR").
-amount (double): The amount to convert.
+- **Endpoint: `/api/currency/convert`**
+- **Method**: GET
+
+# Request Parameters
+- **`from`** (String): The currency code to convert from (e.g., "USD").
+- **`to`** (String): The currency code to convert to (e.g., "EUR").
+- **`amount`** (double): The amount to convert.
 
 **Example Request**
 To convert 100 USD to EUR, make a GET request to the following endpoint:
+
 ```GET http://localhost:8080/api/currency/convert?from=USD&to=EUR&amount=100```
 
 **Example Response**
