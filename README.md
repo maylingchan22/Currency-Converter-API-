@@ -54,11 +54,13 @@ The API exposes a single endpoint for currency conversion:
 - **`amount`** (double): The amount to convert.
 
 **Example Request**
+
 To convert 100 USD to EUR, make a GET request to the following endpoint:
 
 ```GET http://localhost:8080/api/currency/convert?from=USD&to=EUR&amount=100```
 
 **Example Response**
+
 ```{
 "fromCurrency": "USD",
 "toCurrency": "EUR",
