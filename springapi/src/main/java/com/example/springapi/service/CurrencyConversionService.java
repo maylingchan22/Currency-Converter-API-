@@ -12,15 +12,16 @@ import com.example.springapi.api.model.CurrencyConversion;
 @Service
 public class CurrencyConversionService {
 
-    @Value("${exchangerate.api.base-url}") // Configure this in your application.properties
+    @Value("${exchangerate.api.base-url}")
     private String exchangeRateApiBaseUrl;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
     public CurrencyConversion convertCurrency(String from, String to, double amount) {
-        String apiUrl = exchangeRateApiBaseUrl + "/latest/USD"; // Using USD as the base currency
+        String apiUrl = exchangeRateApiBaseUrl + "/latest/" + from; // Use the 'from' parameter as the base currency
 
         ExchangeRateApiResponse response = restTemplate.getForObject(apiUrl, ExchangeRateApiResponse.class);
+        System.out.println("Response: " + response);
 
         if (response == null || !"success".equals(response.getResult())) {
             // Handle the case where the response is null or the API request was not
