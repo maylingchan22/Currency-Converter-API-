@@ -50,14 +50,14 @@ from (String): The currency code to convert from (e.g., "USD").
 to (String): The currency code to convert to (e.g., "EUR").
 amount (double): The amount to convert.
 
-Example Request
+**Example Request**
 To convert 100 USD to EUR, make a GET request to the following endpoint:
-GET http://localhost:8080/api/currency/convert?from=USD&to=EUR&amount=100
+```GET http://localhost:8080/api/currency/convert?from=USD&to=EUR&amount=100```
 
-Example Response
-{
+**Example Response**
+```{
 "fromCurrency": "USD",
 "toCurrency": "EUR",
 "amount": 100.0,
 "convertedAmount": 85.41
-}
+}```
